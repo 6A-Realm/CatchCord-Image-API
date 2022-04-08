@@ -44,7 +44,7 @@ App.post('/main/:dex/:type', async (DataRequested, DataResponse) => {
         var day = new Date().getHours();
 
         if ((day >= 0 && day < 6) || (day > 12 && day < 18)) {
-            settings = {
+            var settings = {
                 'bug': ['https://media.discordapp.net/attachments/878121517949550625/883140656938237992/pokemon_swsh___route_7__sunset__by_phoenixoflight92_de4kxg0-350t.png', true],
                 'water': ['https://media.discordapp.net/attachments/878030078511050845/878059326449799208/1200px-Deepsea_Current_RTDX.png?width=875&height=492', true],
                 'rock': ['https://media.discordapp.net/attachments/878121517949550625/882609968887529522/image0.jpg', false],
@@ -68,7 +68,7 @@ App.post('/main/:dex/:type', async (DataRequested, DataResponse) => {
 
         // Night settings
         else {
-            settings = {
+            var settings = {
                 'bug': ['https://media.discordapp.net/attachments/878121517949550625/912551175214211122/092abcf9a6e24aacceab8dad9a7ede9c.png', false],
                 'water': ['https://media.discordapp.net/attachments/878121517949550625/912550073357971556/de60fnd-03c6d104-a93c-4f21-935c-7a84bed8f8a2.png', false],
                 'rock': ['https://media.discordapp.net/attachments/878121517949550625/882609968887529522/image0.jpg', false],
@@ -111,7 +111,7 @@ App.post('/main/:dex/:type', async (DataRequested, DataResponse) => {
         }
 
         // Flipped pokemon image decider
-        flipper = (Math.floor(Math.random() * 2) == 0);
+        var flipper = (Math.floor(Math.random() * 2) == 0);
         
         if (flipper) {
             const pokemon = await Canvas.loadImage(`https://raw.githubusercontent.com/Project-PokeBots/Pokemon-Image-Resources/main/Sprites/Regular/normal/${dex}.png`);
@@ -142,7 +142,7 @@ App.post('/main/:dex/:type', async (DataRequested, DataResponse) => {
 // Run API
 const start = async () => {
     try {
-        await App.listen(process.env.PORT || 8080, "0.0.0.0");
+        await App.listen(ApiPort);
         console.log(`CatchCord Image API Available on http://localhost:${ApiPort}`);
     } catch(ErrorMessage) {
         App.log.error(ErrorMessage);
