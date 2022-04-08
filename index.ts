@@ -11,7 +11,7 @@ App.get('/home', async (DataRequested, DataResponse) => {
 })
 
 // API Image Handling
-App.post('/main/:dex/:type', async (DataRequested, DataResponse) => {
+App.post('/main', async (DataRequested, DataResponse) => {
         
     // Check if values are assigned correctly
     const { dex } = DataRequested.body;
