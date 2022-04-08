@@ -8,11 +8,11 @@ App.get('/home', async (DataRequested, DataResponse) => {
 })
 
 // API Image Handling
-App.post('/main/:dex/:type', async (DataRequested, DataResponse) => {
+App.post('/main', async (DataRequested, DataResponse) => {
         
     // Check if values are assigned correctly
-    let { dex } = DataRequested.params;
-    let { type } = DataRequested.params;
+    const { dex } = DataRequested.body;
+    const { type } = DataRequested.body;
 
     if (!dex) {
         DataResponse.status(400)
