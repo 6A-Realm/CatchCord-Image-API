@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-
+    "noImplicitAny": true
     "incremental": true,
     "target": "es6",
     "module": "commonjs",
