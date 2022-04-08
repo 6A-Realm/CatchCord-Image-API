@@ -142,7 +142,7 @@ App.post('/main/:dex/:type', async (DataRequested, DataResponse) => {
 // Run API
 const start = async () => {
     try {
-        await App.listen(ApiPort);
+        await App.listen(8080, "0.0.0.0");
         console.log(`CatchCord Image API Available on http://localhost:${ApiPort}`);
     } catch(ErrorMessage) {
         App.log.error(ErrorMessage);
