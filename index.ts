@@ -2,17 +2,59 @@ const Fastify = require('fastify');
 const Canvas = require('canvas');
 const App = Fastify({ logger: false});
 
+const DaySettings = {
+    'bug': ['https://media.discordapp.net/attachments/878121517949550625/883140656938237992/pokemon_swsh___route_7__sunset__by_phoenixoflight92_de4kxg0-350t.png', true],
+    'water': ['https://media.discordapp.net/attachments/878030078511050845/878059326449799208/1200px-Deepsea_Current_RTDX.png?width=875&height=492', true],
+    'rock': ['https://media.discordapp.net/attachments/878121517949550625/882609968887529522/image0.jpg', false],
+    'flying': ['https://media.discordapp.net/attachments/878030078511050845/878060215159898223/1761715.png?width=683&height=390', false],
+    'grass': ['https://media.discordapp.net/attachments/878121517949550625/882606099801473085/image0.jpg?width=759&height=427', true],
+    'normal': ['https://media.discordapp.net/attachments/878121517949550625/883140656938237992/pokemon_swsh___route_7__sunset__by_phoenixoflight92_de4kxg0-350t.png', false],
+    'steel': ['https://media.discordapp.net/attachments/878121517949550625/882609968887529522/image0.jpg', false],
+    'ice': ['https://media.discordapp.net/attachments/878030078511050845/878059020102017054/Oadneyung.png', false],
+    'electric': ['https://media.discordapp.net/attachments/878121517949550625/912579855311339540/ClV5e1F.png?width=589&height=390', false],
+    'ground': ['https://media.discordapp.net/attachments/878121517949550625/912579855311339540/ClV5e1F.png?width=589&height=390', false],
+    'fairy': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', true],
+    'ghost': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390',true],
+    'fire': ['https://media.discordapp.net/attachments/878121517949550625/882606099801473085/image0.jpg?width=759&height=427', true],
+    'psychic': ['https://media.discordapp.net/attachments/878121517949550625/883141077262024714/unknown.png', true],
+    'fighting': ['https://media.discordapp.net/attachments/878030078511050845/878066913702449162/120.png', true],
+    'dark': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', true],
+    'dragon': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', true],
+    'poison': ['https://media.discordapp.net/attachments/878121517949550625/883141077262024714/unknown.png', false]
+}
+
+const NightSettings = {
+    'bug': ['https://media.discordapp.net/attachments/878121517949550625/912551175214211122/092abcf9a6e24aacceab8dad9a7ede9c.png', false],
+    'water': ['https://media.discordapp.net/attachments/878121517949550625/912550073357971556/de60fnd-03c6d104-a93c-4f21-935c-7a84bed8f8a2.png', false],
+    'rock': ['https://media.discordapp.net/attachments/878121517949550625/882609968887529522/image0.jpg', false],
+    'flying': ['https://media.discordapp.net/attachments/878121517949550625/912550765053222932/images.png', false],
+    'grass': ['https://media.discordapp.net/attachments/878121517949550625/912551175214211122/092abcf9a6e24aacceab8dad9a7ede9c.png', false],
+    'normal': ['https://media.discordapp.net/attachments/878121517949550625/912578345126989884/de2soon-f223cb2a-080c-474c-935d-9722f5523503.png?width=693&height=390', false],
+    'steel': ['https://media.discordapp.net/attachments/878121517949550625/882609968887529522/image0.jpg', false],
+    'ice': ['https://media.discordapp.net/attachments/878121517949550625/912578409455026186/snowcave.png', false],
+    'electric': ['https://media.discordapp.net/attachments/878121517949550625/912579855311339540/ClV5e1F.png?width=589&height=390', false],
+    'ground': ['https://media.discordapp.net/attachments/878121517949550625/912579855311339540/ClV5e1F.png?width=589&height=390', false],
+    'fairy': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', false],
+    'ghost': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', false],
+    'fire': ['https://media.discordapp.net/attachments/878121517949550625/912578803912560670/de33uyt-aab270ae-87c5-4511-89a9-05f39dcb1de8.png?width=693&height=390', false],
+    'psychic': ['https://media.discordapp.net/attachments/878121517949550625/912551675569516585/100453.png?width=671&height=427', false],
+    'fighting': ['https://media.discordapp.net/attachments/878121517949550625/912579974496661515/5vwG9iB.png?width=683&height=384', false],
+    'dark': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', false],
+    'dragon': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', false],
+    'poison': ['https://media.discordapp.net/attachments/878121517949550625/912551675569516585/100453.png?width=671&height=427', false]
+}
+
 // API Main Page
 App.get('/home', async (DataRequested, DataResponse) => {
     DataResponse.status(200).send('You have reached the CatchCord Image API!')
 })
 
 // API Image Handling
-App.post('/main', async (DataRequested, DataResponse) => {
+App.post('/main/:dex/:type', async (DataRequested, DataResponse) => {
         
     // Check if values are assigned correctly
-    const { dex } = DataRequested.body;
-    const { type } = DataRequested.body;
+    let { dex } = DataRequested.params;
+    let { type } = DataRequested.params;
 
     if (!dex) {
         DataResponse.status(400)
@@ -41,50 +83,9 @@ App.post('/main', async (DataRequested, DataResponse) => {
         var day = new Date().getHours();
 
         if ((day >= 0 && day < 6) || (day > 12 && day < 18)) {
-            var settings = {
-                'bug': ['https://media.discordapp.net/attachments/878121517949550625/883140656938237992/pokemon_swsh___route_7__sunset__by_phoenixoflight92_de4kxg0-350t.png', true],
-                'water': ['https://media.discordapp.net/attachments/878030078511050845/878059326449799208/1200px-Deepsea_Current_RTDX.png?width=875&height=492', true],
-                'rock': ['https://media.discordapp.net/attachments/878121517949550625/882609968887529522/image0.jpg', false],
-                'flying': ['https://media.discordapp.net/attachments/878030078511050845/878060215159898223/1761715.png?width=683&height=390', false],
-                'grass': ['https://media.discordapp.net/attachments/878121517949550625/882606099801473085/image0.jpg?width=759&height=427', true],
-                'normal': ['https://media.discordapp.net/attachments/878121517949550625/883140656938237992/pokemon_swsh___route_7__sunset__by_phoenixoflight92_de4kxg0-350t.png', false],
-                'steel': ['https://media.discordapp.net/attachments/878121517949550625/882609968887529522/image0.jpg', false],
-                'ice': ['https://media.discordapp.net/attachments/878030078511050845/878059020102017054/Oadneyung.png', false],
-                'electric': ['https://media.discordapp.net/attachments/878121517949550625/912579855311339540/ClV5e1F.png?width=589&height=390', false],
-                'ground': ['https://media.discordapp.net/attachments/878121517949550625/912579855311339540/ClV5e1F.png?width=589&height=390', false],
-                'fairy': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', true],
-                'ghost': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390',true],
-                'fire': ['https://media.discordapp.net/attachments/878121517949550625/882606099801473085/image0.jpg?width=759&height=427', true],
-                'psychic': ['https://media.discordapp.net/attachments/878121517949550625/883141077262024714/unknown.png', true],
-                'fighting': ['https://media.discordapp.net/attachments/878030078511050845/878066913702449162/120.png', true],
-                'dark': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', true],
-                'dragon': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', true],
-                'poison': ['https://media.discordapp.net/attachments/878121517949550625/883141077262024714/unknown.png', false]
-            }
-        }
-
-        // Night settings
-        else {
-            var settings = {
-                'bug': ['https://media.discordapp.net/attachments/878121517949550625/912551175214211122/092abcf9a6e24aacceab8dad9a7ede9c.png', false],
-                'water': ['https://media.discordapp.net/attachments/878121517949550625/912550073357971556/de60fnd-03c6d104-a93c-4f21-935c-7a84bed8f8a2.png', false],
-                'rock': ['https://media.discordapp.net/attachments/878121517949550625/882609968887529522/image0.jpg', false],
-                'flying': ['https://media.discordapp.net/attachments/878121517949550625/912550765053222932/images.png', false],
-                'grass': ['https://media.discordapp.net/attachments/878121517949550625/912551175214211122/092abcf9a6e24aacceab8dad9a7ede9c.png', false],
-                'normal': ['https://media.discordapp.net/attachments/878121517949550625/912578345126989884/de2soon-f223cb2a-080c-474c-935d-9722f5523503.png?width=693&height=390', false],
-                'steel': ['https://media.discordapp.net/attachments/878121517949550625/882609968887529522/image0.jpg', false],
-                'ice': ['https://media.discordapp.net/attachments/878121517949550625/912578409455026186/snowcave.png', false],
-                'electric': ['https://media.discordapp.net/attachments/878121517949550625/912579855311339540/ClV5e1F.png?width=589&height=390', false],
-                'ground': ['https://media.discordapp.net/attachments/878121517949550625/912579855311339540/ClV5e1F.png?width=589&height=390', false],
-                'fairy': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', false],
-                'ghost': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', false],
-                'fire': ['https://media.discordapp.net/attachments/878121517949550625/912578803912560670/de33uyt-aab270ae-87c5-4511-89a9-05f39dcb1de8.png?width=693&height=390', false],
-                'psychic': ['https://media.discordapp.net/attachments/878121517949550625/912551675569516585/100453.png?width=671&height=427', false],
-                'fighting': ['https://media.discordapp.net/attachments/878121517949550625/912579974496661515/5vwG9iB.png?width=683&height=384', false],
-                'dark': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', false],
-                'dragon': ['https://media.discordapp.net/attachments/878030078511050845/878066118697312286/EGCfymnXkAE92lx.png?width=689&height=390', false],
-                'poison': ['https://media.discordapp.net/attachments/878121517949550625/912551675569516585/100453.png?width=671&height=427', false]
-            }
+            var settings = DaySettings;
+        } else {
+            var settings = NightSettings;
         }
 
         const varx = RandomNumberGenerator(70, 650)
