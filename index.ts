@@ -2,20 +2,17 @@ const Fastify = require('fastify');
 const Canvas = require('canvas');
 const App = Fastify({ logger: false});
 
-// Localhost port
-const ApiPort = 8080;
-
 // API Main Page
 App.get('/home', async (DataRequested, DataResponse) => {
     DataResponse.status(200).send('You have reached the CatchCord Image API!')
 })
 
 // API Image Handling
-App.post('/main', async (DataRequested, DataResponse) => {
+App.post('/main/:dex/:type', async (DataRequested, DataResponse) => {
         
     // Check if values are assigned correctly
-    const { dex } = DataRequested.body;
-    const { type } = DataRequested.body;
+    let { dex } = DataRequested.params;
+    let { type } = DataRequested.params;
 
     if (!dex) {
         DataResponse.status(400)
@@ -143,7 +140,7 @@ App.post('/main', async (DataRequested, DataResponse) => {
 const start = async () => {
     try {
         await App.listen(process.env.PORT || 8080, "0.0.0.0");
-        console.log(`CatchCord Image API Available on http://localhost:${ApiPort}`);
+        console.log(`CatchCord Image API is ready.`);
     } catch(ErrorMessage) {
         App.log.error(ErrorMessage);
     }
