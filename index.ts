@@ -14,8 +14,8 @@ App.get('/home', async (DataRequested, DataResponse) => {
 App.post('/main/:dex/:type', async (DataRequested, DataResponse) => {
         
     // Check if values are assigned correctly
-    const { dex } = DataRequested.params;
-    const { type } = DataRequested.params;
+    var { dex } = DataRequested.params;
+    var { type } = DataRequested.params;
 
     if (!dex) {
         DataResponse.status(400)
